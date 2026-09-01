@@ -10,12 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as SavedRouteImport } from './routes/saved'
 import { Route as RecipeSlugRouteImport } from './routes/recipe.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IngredientsRoute = IngredientsRouteImport.update({
+  id: '/ingredients',
+  path: '/ingredients',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SavedRoute = SavedRouteImport.update({
@@ -31,30 +43,39 @@ const RecipeSlugRoute = RecipeSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/ingredients': typeof IngredientsRoute
   '/saved': typeof SavedRoute
   '/recipe/$slug': typeof RecipeSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/ingredients': typeof IngredientsRoute
   '/saved': typeof SavedRoute
   '/recipe/$slug': typeof RecipeSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/ingredients': typeof IngredientsRoute
   '/saved': typeof SavedRoute
   '/recipe/$slug': typeof RecipeSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/saved' | '/recipe/$slug'
+  fullPaths: '/' | '/explore' | '/ingredients' | '/saved' | '/recipe/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/saved' | '/recipe/$slug'
-  id: '__root__' | '/' | '/saved' | '/recipe/$slug'
+  to: '/' | '/explore' | '/ingredients' | '/saved' | '/recipe/$slug'
+  id:
+    '__root__' | '/' | '/explore' | '/ingredients' | '/saved' | '/recipe/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExploreRoute: typeof ExploreRoute
+  IngredientsRoute: typeof IngredientsRoute
   SavedRoute: typeof SavedRoute
   RecipeSlugRoute: typeof RecipeSlugRoute
 }
@@ -66,6 +87,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ingredients': {
+      id: '/ingredients'
+      path: '/ingredients'
+      fullPath: '/ingredients'
+      preLoaderRoute: typeof IngredientsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/saved': {
@@ -87,6 +122,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExploreRoute: ExploreRoute,
+  IngredientsRoute: IngredientsRoute,
   SavedRoute: SavedRoute,
   RecipeSlugRoute: RecipeSlugRoute,
 }
