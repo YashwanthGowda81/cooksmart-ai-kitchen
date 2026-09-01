@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SavedRouteImport } from './routes/saved'
+import { Route as RecipeSlugRouteImport } from './routes/recipe.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecipeSlugRoute = RecipeSlugRouteImport.update({
+  id: '/recipe/$slug',
+  path: '/recipe/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/saved': typeof SavedRoute
+  '/recipe/$slug': typeof RecipeSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/saved': typeof SavedRoute
+  '/recipe/$slug': typeof RecipeSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/saved': typeof SavedRoute
+  '/recipe/$slug': typeof RecipeSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/saved' | '/recipe/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/saved' | '/recipe/$slug'
+  id: '__root__' | '/' | '/saved' | '/recipe/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SavedRoute: typeof SavedRoute
+  RecipeSlugRoute: typeof RecipeSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recipe/$slug': {
+      id: '/recipe/$slug'
+      path: '/recipe/$slug'
+      fullPath: '/recipe/$slug'
+      preLoaderRoute: typeof RecipeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SavedRoute: SavedRoute,
+  RecipeSlugRoute: RecipeSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
