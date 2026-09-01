@@ -76,15 +76,6 @@ export function Pill({
   );
 }
 
-export function Meta({ icon, children }: { icon: ReactNode; children: ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-      {icon}
-      {children}
-    </span>
-  );
-}
-
 /* --------------------------------- Section --------------------------------- */
 
 export function SectionHeader({
@@ -93,7 +84,7 @@ export function SectionHeader({
   eyebrow,
 }: {
   title: string;
-  eyebrow?: string;
+  eyebrow?: string | undefined;
   action?: ReactNode;
 }) {
   return (
